@@ -1,12 +1,24 @@
+*{
+    color-scheme: dark;
+}
+
 body{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 1em;
+
+}
+
+.mainWrapper{
+    padding-top: 10%;
+    padding-bottom: 10%;
+    transform: scale(1.3);
 }
 
 .mainContainer{
+    background-color: rgb(144, 162, 110);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -14,15 +26,44 @@ body{
     justify-content: center;
     border: 10px solid grey;
     border-radius: 20px;
+    border-bottom-color: rgb(70, 70, 70);
+    border-right-color: rgb(70, 70, 70);
     width: max-content;
 }
 
+.answerBox{
+    background-color: darkgreen;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1em;
+    justify-content: space-around;
+    border: 4px solid grey;
+    border-top-color: rgb(70, 70, 70);
+    border-left-color: rgb(70, 70, 70);
+    border-radius: 20px;
+    width: 70%;
+    height: 180px;
+    margin-top: 1em;
+    font-family: monospace;
+    padding: 1em;
+
+}
+
+.answerBox > div{
+    color: greenyellow;
+}
+
+.answer{
+    transform: scale(3);
+}
 
 button{
     display: grid;
     justify-content: center;
-    border: 5px solid grey;
+    border: px solid grey;
     border-radius: 20px;
+    transform: scale(1.3);
 }
 
 .buttonBox{
@@ -31,4 +72,5 @@ button{
     grid-template-rows: repeat(4, [row-start] 1fr);
     gap: 1em;
     padding: 1em;
+    padding-bottom: 1.8em;
 }
