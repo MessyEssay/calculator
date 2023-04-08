@@ -11,6 +11,10 @@ body{
 
 }
 
+
+/*-------------best-rapper-ever-------------*/
+
+
 .mainWrapper{
     padding-top: 10%;
     padding-bottom: 10%;
@@ -30,6 +34,10 @@ body{
     border-right-color: rgb(70, 70, 70);
     width: max-content;
 }
+
+
+/*---------------answer-box----------------*/
+
 
 .answerBox{
     background-color: darkgreen;
@@ -58,17 +66,21 @@ body{
     transform: scale(3);
 }
 
+
+/*--------------butt-stuff--------------*/
+
+
 button{
     display: grid;
     justify-content: center;
     border-radius: 20px;
-    transform: scale(1.3);
+    transform: scale(1.2);
 }
 
 .buttonBox{
     display:grid;
     grid-template-columns: repeat(4, [col-start] 1fr);
-    grid-template-rows: repeat(4, [row-start] 1fr);
+    grid-template-rows: repeat(5, [row-start] 1fr);
     gap: 1em;
     padding: 1em;
     padding-bottom: 1.8em;
@@ -78,4 +90,18 @@ button:hover{
     transform: scale(1.6);
     background-color: rgb(126, 126, 126);
     box-shadow: 3px 3px .3em darkgoldenrod;
+}
+
+.clear{
+    grid-column: 1/3;
+    transform: scale(1.1);
+}
+
+.equals{
+    grid-column: 3/5;
+    transform: scale(1.1);
+}
+
+.equals:hover, .clear:hover{
+    transform: scale(1.3);
 }
