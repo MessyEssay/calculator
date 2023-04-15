@@ -1,66 +1,142 @@
 //bind buttons
-let currentNum = []
+let currentNum = [];
+let lastSolved = "";
+let nextInput = "";
+let answer = "";
 
-const buttons= document.getElementsByTagName('button')
+const buttons = document.getElementsByTagName('button');
+const pastWork = document.querySelector('.pastWork');
+const answerBox = document.querySelector('.answer');
 
-console.log(buttons)
+//console.log(buttons)
 
 for (let i = 0; i < buttons.length; i++) {
-    const button = buttons[i];
+  const button = buttons[i];
 
-    //adding a click event listener to the buttons
-    button.addEventListener('click',event=>{
-            const input= event.target.innerHTML;
-            switch(input) {
-                case "+":
-                case "-":
-                case "*":    
-                case "/":
-                    //seperate previous from current add opperator
-                case "=":
-                    //solve()
-                case "c":
-                    //clear()
-                default:
-                    currentNum.push(input)
-        }
-        currentNum = currentNum.join('');
-        currentNum = currentNum.split()
-        console.log(currentNum)
-    })
-
-
-    //adding a keydown listener 
-    button.addEventListener('keydown',event=>{
-        const input = event.key;
-        switch (input) {
-            case "+":
-            case "-":
-            case "*":
-            case "/":
-                //seperate previous from current add opperator
-            case "Enter":
-                //solve()
-            case "c":
-                //clear()
-            default:
-                currentNum.push(input)
+  //adding a click event listener to the buttons
+  button.addEventListener('click', (event) => {
+    const input = event.target.textContent;
+    switch (input) {
+      case "+":
+      case "-":
+      case "*":
+      case "/":
+        //separate previous from current add operator
+        nextInput += ` ${input} `;
+        break;
+      case "=":
+        solve();
+        break;
+      case "CL":
+        clear();
+        break;
+      default:
+        currentNum.push(input);
+        nextInput += input;
     }
-    currentNum = currentNum.join('');
-    currentNum = currentNum.split()
-    console.log(currentNum)
+    console.table([ "currentNum = " + currentNum, "lastSolved = " + lastSolved, "nextInput = " + nextInput, "answer = " + answer]);
+    updateDisplay();
   });
+
+  //adding a keydown listener
+  button.addEventListener('keydown', event => {
+    const input = event.key;
+    switch (input) {
+      case "+":
+      case "-":
+      case "*":
+      case "/":
+        // separate previous from current add operator
+        nextInput += ` ${input} `;
+        break;
+      case "0":
+      case "1":
+      case "2":
+      case "3":
+      case "4":
+      case "5":
+      case "6":
+      case "7":
+      case "8":
+      case "9":
+        currentNum.push(input);
+        nextInput += input;
+        break;
+      case "Enter":
+        solve();
+        break;
+      case "c":
+        clear();
+        break;
+      default:
+        alert("not an option");
+    }
+    updateDisplay();
+  });
+
 }
 
-// console.log(buttons)
+function solve() {
+  if (!currentNum.length) {
+    answer = '';
+    return;
+  }
+  const expression = `${lastSolved} ${nextInput} ${currentNum.join('')}`;
+  try {
+    const result = evaluateThis(expression);
 
-//make a place to store shit
-    //-lastSolved, -nextImput, -answer
+    lastSolved = expression;
+    nextInput = result.toString();
+    currentNum = [result.toString()];
+    answer = result.toString();
+  } catch (error) {
+    answer = 'Error!';
+  }
+}
 
-    //imput: display both lastSolved and nextImput in .pastWork
-        //lastSolved (eval) nextImput
+function clear() {
+    currentNum = [];
+    lastSolved = "";
+    nextInput = "";
+    answer = "";
+}
 
-    //output: display answer in .answerBox
+function updateDisplay() {
+    pastWork.innerHTML = `${lastSolved} ${nextInput}`;
+    answerBox.innerHTML = answer;
+}
 
-//make a  few functions
-    //*solve, *clear
+function evaluateThis(expression) {
+  const stack = [];
+  const operators = ["+", "-", "*", "/"];
+
+  for (let i = 0; i < expression.length; i++) {
+    const token = expression[i];
+
+    if (!isNaN(token)) {
+      //if the token is a num, push it on to the stack
+      stack.push(parseFloat(token));
+    } else if (operators.includes(token)) {
+      // If the token is an operator, pop the last two numbers off the stack,
+      // perform the operation, and push the result back onto the stack
+      const b = stack.pop();
+      const a = stack.pop();
+
+      switch (token) {
+        case "*":
+            stack.push(a * b);
+            break;
+        case "/":
+            stack.push(a / b);
+            break;
+        case '+':
+            stack.push(a + b);
+            break;
+        case '-':
+            stack.push(a - b);
+            break;
+      }
+    }
+  }
+  return stack.pop();
+}
